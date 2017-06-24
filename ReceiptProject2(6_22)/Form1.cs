@@ -22,17 +22,34 @@ namespace ReceiptProject2_6_22_
         //Allowing a public connection accessible to all columns
         SqlConnection con = new SqlConnection("Data Source=DESKTOP-QUAEPTE;Initial Catalog=Receipts_DB;Integrated Security=True");
         SqlCommand command = new SqlCommand();
-        SqlDataReader datapop1,datapop2, datapop3, eventdata1, eventdata2;
+        SqlDataReader datapop1, datapop2, datapop3, eventdata1, eventdata2;
 
         string GroceryCoString, StoreAddress, StoreID;
 
-        
-
-       private void SetData1() //This populates the first table
+        private class ListboxCategories
         {
-           command.Connection = con;
-           con.Open();
-           command.CommandText = "Select Company_Name from Companies";
+            // public string GroceryCoString { get; set; }
+            //public string StoreAddress { get; set; }
+            //public string StoreID { get; set; }
+
+
+
+            /*  public ListboxCategories(string grocerycostring,string storeaddress, string storeid)
+              {
+                  this.GroceryCoString = grocerycostring;
+                  this.StoreAddress = storeaddress;
+                  this.StoreID = storeid; 
+              }*/
+
+        }
+
+
+        void SetData1() //This populates the first table
+        {
+
+            command.Connection = con;
+            con.Open();
+            command.CommandText = "Select Company_Name from Companies";
             datapop1 = command.ExecuteReader();
             if (datapop1.HasRows)
             {
@@ -42,15 +59,21 @@ namespace ReceiptProject2_6_22_
                 }
             }
             con.Close();
-            }
 
-        private void SetData2(string GroceryID) //This populates the first table
+            //  ListboxCategories ABC = new ListboxCategories(); 
+            // listBox1.SelectedIndexChanged += new EventHandler(listBox1_SelectedIndexChanged);
+            //listBox2.SelectedIndexChanged += new EventHandler(listBox1_SelectedIndexChanged);
+        }
+
+
+        void SetData2() //This populates the 2nd listbox
         {
-            //listBox2.Items.Clear();
+
+            string GroceryID = GroceryCoString;
             command.Connection = con;
             con.Open();
             command.CommandText = "Select StreetAddress FROM Stores WHERE GroceryCompany_ID = '" + GroceryID + "'";
-           // command.CommandText = "Select StreetAddress FROM Stores";
+            //command.CommandText = "Select StreetAddress FROM Stores";
             datapop2 = command.ExecuteReader();
             if (datapop2.HasRows)
             {
@@ -59,59 +82,71 @@ namespace ReceiptProject2_6_22_
                     listBox2.Items.Add(datapop2[0]);
                 }
             }
-            con.Close(); 
+            con.Close();
+            // listBox2.SelectedIndexChanged += new EventHandler(listBox1_SelectedIndexChanged);
 
-            //string StoreAdress = listBox2.SelectedIndex.ToString();
-          // MessageBox.Show(StoreAddress);
 
-            
+            //StoreID = listBox2.SelectedIndex.ToString();
+            //MessageBox.Show(StoreID); 
         }
 
-        private void SetData3(string StoreID)
+        void SetData3()
         {
-            // MessageBox.Show(StoreID);
-         
-            
+            command.Connection = con;
+            con.Open();
+            command.CommandText = "Select ItemName FROM Grocery_Inventory WHERE Store_ID = '" + StoreID + "'";
+            //command.CommandText = "Select StreetAddress FROM Stores";
+           datapop3 = command.ExecuteReader();
+            if (datapop3.HasRows)
+            {
+                while (datapop3.Read())
+                {
+                    listBox3.Items.Add(datapop3[0]);
+                }
+            }
+            con.Close();
         }
-
-
-        
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
             string GroceryName = listBox1.SelectedItem.ToString();
             con.Open();
-            command.Connection = con; 
-            command.CommandText = "Select GroceryCompany_ID from Companies WHERE Company_Name = '"+GroceryName+"'";
+            command.Connection = con;
+            command.CommandText = "Select GroceryCompany_ID from Companies WHERE Company_Name = '" + GroceryName + "'";
             eventdata1 = command.ExecuteReader();
             eventdata1.Read();
+            //Seeing if I can set private messages
             GroceryCoString = eventdata1[0].ToString();
             con.Close(); //closing the connection so a new one can be opened in SetData(2)
             listBox2.Items.Clear();
-            SetData2(GroceryCoString); 
-
+            listBox3.Items.Clear();
+            //Populate Data based off listbox1
+            SetData2();
+            //Even after calling SetData2, the code hit a deadend/loop here, even though there was a listbox2_selected index change. Had to force listbox event 2.
+            //This is breaking because it forces the user to select something after the listbox2_selected index
+            if (listBox2.SelectedIndex !=0 |listBox2.SelectedIndex !=-1)  
+            {
+                    listBox2.SelectedIndexChanged += new EventHandler(listBox2_SelectedIndexChanged);
+            }
         }
 
-        private void listBox2_SelectedValueChanged(object sender, EventArgs e)
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MessageBox.Show("LOL IS THIS THING ON?");
-                /*
-            string StoreAddress = listBox2.SelectedItem.ToString();
-            MessageBox.Show(StoreAddress);
-           
-              con.Open();
-                command.Connection = con;
-                command.CommandText = "Select Store_ID from Stores WHERE StreetAddress = '" + StoreAddress + "'";
-                eventdata2 = command.ExecuteReader();
-                eventdata2.Read();
-                StoreID = eventdata2[0].ToString();
-                con.Close(); //closing the connection so a new one can be opened in SetData(2)
 
-            MessageBox.Show(StoreID);
-
-            SetData3(StoreID);
-*/
+         //listbox2 selected item to string
+                StoreAddress = listBox2.SelectedItem.ToString();
+            
+            con.Open();
+            command.Connection = con;
+            command.CommandText = "Select Store_ID from Stores WHERE StreetAddress = '" + StoreAddress + "'";
+            eventdata2 = command.ExecuteReader();
+            eventdata2.Read();
+            StoreID = eventdata2[0].ToString();
+            con.Close(); //closing the connection so a new one can be opened in SetData(2)
+            listBox3.Items.Clear();
+            SetData3();
         }
 
 
@@ -119,12 +154,12 @@ namespace ReceiptProject2_6_22_
         {
 
             //when the form loads it opens the connection
-            command.Connection = con; 
+            command.Connection = con;
 
             // TODO: This line of code loads data into the 'receipts_DBDataSet.Grocery_Inventory' table. You can move, or remove it, as needed.
             //this.grocery_InventoryTableAdapter.Fill(this.receipts_DBDataSet.Grocery_Inventory);
 
         }
-        
+
     }
 }

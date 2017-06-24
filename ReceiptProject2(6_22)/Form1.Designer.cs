@@ -31,12 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.receipts_DBDataSet = new ReceiptProject2_6_22_.Receipts_DBDataSet();
             this.groceryInventoryBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.grocery_InventoryTableAdapter = new ReceiptProject2_6_22_.Receipts_DBDataSetTableAdapters.Grocery_InventoryTableAdapter();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.listBox3 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.receipts_DBDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groceryInventoryBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -59,14 +58,6 @@
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(344, 404);
             this.listBox2.TabIndex = 1;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(607, 13);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1307, 403);
-            this.dataGridView1.TabIndex = 2;
             // 
             // receipts_DBDataSet
             // 
@@ -92,19 +83,27 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "label1";
             // 
+            // listBox3
+            // 
+            this.listBox3.FormattingEnabled = true;
+            this.listBox3.ItemHeight = 25;
+            this.listBox3.Location = new System.Drawing.Point(617, 12);
+            this.listBox3.Name = "listBox3";
+            this.listBox3.Size = new System.Drawing.Size(1286, 404);
+            this.listBox3.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1926, 855);
+            this.Controls.Add(this.listBox3);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.listBox2);
             this.Controls.Add(this.listBox1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.receipts_DBDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groceryInventoryBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -116,11 +115,11 @@
 
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private Receipts_DBDataSet receipts_DBDataSet;
         private System.Windows.Forms.BindingSource groceryInventoryBindingSource;
         private Receipts_DBDataSetTableAdapters.Grocery_InventoryTableAdapter grocery_InventoryTableAdapter;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListBox listBox3;
     }
 }
 
